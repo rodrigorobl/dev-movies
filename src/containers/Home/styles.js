@@ -10,7 +10,7 @@ export const Background = styled.div`
   justify-content: center;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -26,13 +26,13 @@ export const Container = styled.div`
   align-items: center;
   height: 100%;
   max-width: 1500px;
-`
+`;
 
 export const Info = styled.div`
   z-index: 2;
   padding: 20px;
   width: 50%;
-  
+
   h1 {
     font-size: 4rem;
     font-weight: 700;
@@ -46,15 +46,18 @@ export const Info = styled.div`
     margin-top: 30px;
     margin-bottom: 20px;
   }
-`
+`;
 
 export const Poster = styled.div`
   z-index: 2;
   img {
     width: 400px;
     border-radius: 30px;
-    
   }
+`;
 
-
-`
+export const ContainerButtons = styled.div`
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
+`;

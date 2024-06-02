@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Button from "../../components/Button";
 import Slider from "../../components/Slider";
 import api from "../../services/api";
+import { getImages } from "../../services/utils/getImages";
 import {
   Background,
   Container,
@@ -11,10 +12,12 @@ import {
   Poster,
 } from "./styles";
 
-
 function Home() {
   const [movie, setMovie] = useState();
   const [topMovies, setTopMovies] = useState();
+  const [topSeries, setTopSeries] = useState();
+  const [popularSeries, setPopularSeries] = useState();
+  const [topPeople, setTopPeople] = useState();
 
   useEffect(() => {
     async function getMovies() {
@@ -34,16 +37,44 @@ function Home() {
       setTopMovies(results);
     }
 
+    async function getTopSeries() {
+      const {
+        data: { results },
+      } = await api.get("/tv/top_rated");
+
+      console.log(results);
+      setTopSeries(results);
+    }
+
+    async function getPopularSeries() {
+      const {
+        data: { results },
+      } = await api.get("/tv/popular");
+
+      console.log(results);
+      setPopularSeries(results);
+    }
+
+    async function getTopPeople() {
+      const {
+        data: { results },
+      } = await api.get("/person/popular");
+
+      console.log(results);
+      setTopPeople(results);
+    }
+
     getMovies();
     getTopMovies();
+    getTopSeries();
+    getPopularSeries();
+    getTopPeople();
   }, []);
 
   return (
     <>
       {movie && (
-        <Background
-          img={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
-        >
+        <Background img={getImages(movie.backdrop_path)}>
           <Container>
             <Info>
               <h1>{movie.title}</h1>
@@ -54,15 +85,17 @@ function Home() {
               </ContainerButtons>
             </Info>
             <Poster>
-              <img
-                alt="capa-do-filme"
-                src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
-              />
+              <img alt="capa-do-filme" src={getImages(movie.poster_path)} />
             </Poster>
           </Container>
         </Background>
       )}
-     {topMovies && <Slider info={topMovies} title={"Top Filmes"} />}
+      {topMovies && <Slider info={topMovies} title={"Top Filmes"} />}
+      {topSeries && <Slider info={topSeries} title={"Top Series"} />}
+      {popularSeries && (
+        <Slider info={popularSeries} title={"Series Populares"} />
+      )}
+      {topPeople && <Slider info={topPeople} title={"Top Artistas"} />}
     </>
   );
 }

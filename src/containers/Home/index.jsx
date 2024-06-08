@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 
 import Button from "../../components/Button";
 import Slider from "../../components/Slider";
-import { getImages } from "../../services/utils/getImages";
 import {
   Background,
   Container,
@@ -19,6 +18,7 @@ import {
   getTopPeople,
   getTopSeries,
 } from "../../services/getData";
+import { getImages } from "../../utils/getImages";
 
 function Home() {
   const [showModal, setShowModal] = useState(false);
@@ -31,11 +31,21 @@ function Home() {
 
   useEffect(() => {
     async function getAllData() {
-      setMovie(await getMovies());
-      setTopMovies(await getTopMovies());
-      setTopSeries(await getTopSeries());
-      setPopularSeries(await getPopularSeries());
-      setTopPeople(await getTopPeople());
+      Promise.all([
+        getMovies(),
+        getTopMovies(),
+        getTopSeries(),
+        getPopularSeries(),
+        getTopPeople(),
+      ])
+        .then(([movie, topMovies, topSeries, popularSeries, topPeople]) => {
+          setMovie(movie);
+          setTopMovies(topMovies);
+          setTopSeries(topSeries);
+          setPopularSeries(popularSeries);
+          setTopPeople(topPeople);
+        })
+        .catch((error) => console.error(error));
     }
 
     getAllData();

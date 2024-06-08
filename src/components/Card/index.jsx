@@ -1,4 +1,4 @@
-import { getImages } from "../../services/utils/getImages";
+import { getImages } from "../../utils/getImages";
 import { Container } from "./styles";
 
 function Card({ item }) {

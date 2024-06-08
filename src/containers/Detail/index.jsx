@@ -8,7 +8,7 @@ import {
   getMovieVideos,
 } from "../../services/getData";
 
-import { Container, Background, Cover } from "./styles";
+import { Container, Background, Cover, Info } from "./styles";
 import { getImages } from "../../utils/getImages";
 
 function Detail() {
@@ -48,7 +48,12 @@ function Detail() {
             <Cover>
               <img src={getImages(movie.poster_path)} />
             </Cover>
-            <div>Detalhe</div>
+            <Info>
+              <h2>{movie.title}</h2>
+              <div>Generos</div>
+              <p>{movie.overview}</p>
+              <div>Créditos</div>
+            </Info>
           </Container>
         </>
       )}

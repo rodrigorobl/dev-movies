@@ -8,10 +8,11 @@ import {
   getMovieVideos,
 } from "../../services/getData";
 
-import { Container, Background, Cover, Info } from "./styles";
+import { Container, Background, Cover, Info, ContainerMovies } from "./styles";
 import { getImages } from "../../utils/getImages";
 import SpanGenres from "../../components/SpanGenres";
 import Credits from "../../components/Credits";
+import Slider from "../../components/Slider";
 
 function Detail() {
   const { id } = useParams();
@@ -29,7 +30,6 @@ function Detail() {
         getMovieSimilar(id),
       ])
         .then(([movie, videos, credits, similar]) => {
-          console.log({ movie, videos, credits, similar });
           setMovie(movie);
           setMovieVideos(videos);
           setMovieCredits(credits);
@@ -59,6 +59,23 @@ function Detail() {
               </div>
             </Info>
           </Container>
+          <ContainerMovies>
+            {movieVideos &&
+              movieVideos.map((video) => (
+                <div key={video.id}>
+                  <h4>{movie.name}</h4>
+                  <iframe
+                    src={`https://www.youtube.com/embed/${video.key}`}
+                    title="Youtube Video Player"
+                    height="500px"
+                    width="100%"
+                  ></iframe>
+                </div>
+              ))}
+          </ContainerMovies>
+          {movieSimilar && (
+            <Slider info={movieSimilar} title={"Filmes Similares"} />
+          )}
         </>
       )}
     </>
